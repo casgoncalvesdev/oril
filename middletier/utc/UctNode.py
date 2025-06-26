@@ -2,19 +2,19 @@ import math
 import random
 
 class UctNode:
-    def __init__(self, parent, board, action):
+    def __init__(self, player, parent, board, action):
         self.verbose = False
-        self.action = action                # Action that led to this node
-        self.parent = parent               # Parent UctNode
-        self.children = []                 # Child UctNodes
-        self.wins = 0                      # Total score (for active player)
-        self.visits = 0                    # Number of times node visited
-        self.unexamined = board.get_actions()  # Actions not yet tried
-        self.active_player = board.active      # Who is to move
+        self.action = action                   # Action that led to this node
+        self.parent = parent                   # Parent UctNode
+        self.children = []                     # Child UctNodes
+        self.wins = 0                          # Total score (for active player)
+        self.visits = 0                        # Number of times node visited
+        self.active_player = player.get_num()  # Actions not yet tried
+        self.unexamined = player.get_actions() # Who is to move
 
-    def add_child(self, board, index):
+    def add_child(self, player, board, index):
         action = self.unexamined[index]
-        child = UctNode(parent=self, board=board, action=action)
+        child = UctNode(player=player, parent=self, board=board, action=action)
         del self.unexamined[index]
         self.children.append(child)
         return child
@@ -25,7 +25,8 @@ class UctNode:
 
         for child in self.children:
             if child.visits == 0:
-                continue  # avoid division by zero
+                # Fallback: prefer exploring unvisited child first
+                return child
             uct_value = (child.wins / child.visits) + \
                         math.sqrt(2 * math.log(self.visits) / child.visits)
             if uct_value > best_value:

@@ -21,12 +21,12 @@ def main():
     # )
 
     # # Test scenario: capture seeds from none consecutive pits
-    board = Board.from_seeds(
-        [0, 0, 0, 0, 4, 0],
-        20,
-        [1, 0, 1, 0, 0, 0],
-        22
-    )
+    # board = Board.from_seeds(
+    #     [0, 0, 0, 0, 4, 0],
+    #     20,
+    #     [1, 0, 1, 0, 0, 0],
+    #     22
+    # )
 
     # # Test scenario: capture seeds from 2 pits partially none consecutive
     # board = Board.from_seeds(
@@ -59,6 +59,8 @@ def main():
     #     [1, 0, 0, 0, 0, 0],
     #     24
     # )
+
+    board = Board.create()
 
     print(Print.board(board))
 

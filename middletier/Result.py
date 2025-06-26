@@ -1,3 +1,6 @@
+from middletier.PlayerNumber import PlayerNumber
+
+
 class Result:
     def __init__(self, status: 'Status', next_player: 'PlayerNumber', board: 'Board'):
         self.status = status
@@ -12,6 +15,11 @@ class Result:
 
     def get_board(self) -> 'Board':
         return self.board
+
+    def get_result(self):
+        p1_score = self.board.get_players().get_player1().score()
+        p2_score = self.board.get_players().get_player2().score()
+        return {PlayerNumber.ONE: p1_score, PlayerNumber.TWO: p2_score}
 
     def __eq__(self, other) -> bool:
         if not isinstance(other, Result):
