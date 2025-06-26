@@ -1,4 +1,4 @@
 # oril (wip)
-oril (oware)  konsolenspiel mit ki
+oril (oware)  konsolenspiel
 
-inspired by [OMerkel Oware] (https://github.com/OMerkel/Oware)
+inspiriert von [OMerkel Oware] (https://github.com/OMerkel/Oware)
