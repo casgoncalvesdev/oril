@@ -1,10 +1,26 @@
+"""
+    Board class:
+    This class represents the complete game board setup for a two-player seed-sowing game
+    (e.g., Mancala or similar). It handles initialization, board structure, and player linkage.
+    Key responsibilities include:
+    - Creating houses and stores for each player with a specified number of seeds.
+    - Linking houses and stores in a circular fashion to facilitate turn logic.
+    - Constructing and maintaining references to Player and Players objects.
+
+    Dependencies:
+    - House: Represents a single pit or house that holds seeds.
+    - Store: Represents a player's scoring pit (store).
+    - Player: Represents a single player's state and actions.
+    - PlayerNumber: Enum used to differentiate between Player One and Player Two.
+    - Players: Container for accessing both Player instances.
+"""
 from typing import List
 
-from middletier.House import House
-from middletier.Player import Player
-from middletier.PlayerNumber import PlayerNumber
-from middletier.Players import Players
-from middletier.Store import Store
+from middletier.house import House
+from middletier.player import Player
+from middletier.player_number import PlayerNumber
+from middletier.players import Players
+from middletier.store import Store
 
 
 class Board:
@@ -39,7 +55,7 @@ class Board:
         return board
 
     @staticmethod
-    def build_houses(player_number: 'PlayerNumber.py', seeds: List[int]) -> List['House']:
+    def build_houses(player_number: 'player_number.py', seeds: List[int]) -> List['House']:
         houses = []
         for seed_count in seeds:
             house = House(player_number, seed_count)

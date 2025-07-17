@@ -1,5 +1,25 @@
-from middletier.Board import Board
-from middletier.PlayerNumber import PlayerNumber
+"""
+    Print class:
+    Provides utility methods for displaying the game board and gameplay progress
+    in a human-readable format on the console.
+
+    Key responsibilities include:
+    - Rendering the current board state in a formatted text layout.
+    - Displaying an initial empty or default board.
+    - Facilitating a simple looped play display alternating between players.
+    - Generating board views after moves for each player.
+
+    Dependencies:
+    - Board: Represents the game board with pits and stores.
+    - PlayerNumber: Enum to identify players (Player One or Player Two).
+
+    Usage notes:
+    - The board layout aligns pits visually with Player Two’s houses reversed at the top,
+      stores in the middle, and Player One’s houses at the bottom.
+    - The play method demonstrates a basic alternating turn display until a player completes their moves.
+"""
+from middletier.board import Board
+from middletier.player_number import PlayerNumber
 
 
 class Print:

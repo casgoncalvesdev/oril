@@ -1,9 +1,25 @@
-from middletier import PlayerNumber
+"""
+    Pit class:
+    This class defines the basic structure and behavior of a pit on the game board,
+    which may represent either a house or a store depending on subclass implementation.
+    It maintains seed count, links to adjacent pits, and information about sowability.
+    Designed for extension by more specific pit types like House and Store.
+
+    Key responsibilities include:
+    - Holding and modifying the number of seeds in the pit.
+    - Managing links to the next and previous pits for circular traversal.
+    - Indicating whether the pit can be sown into during a move.
+
+    Dependencies:
+    - PlayerNumber: Enum used to identify the pit's owner.
+"""
+
+from middletier import player_number
 
 
 class Pit:
-    def __init__(self, owner: 'PlayerNumber', seeds: int, is_sowable: bool):
-        self.owner: PlayerNumber = owner
+    def __init__(self, owner: 'player_number', seeds: int, is_sowable: bool):
+        self.owner: player_number = owner
         self.seeds: int = seeds
         self.is_sowable: bool = is_sowable
         self.next: 'Pit' = None

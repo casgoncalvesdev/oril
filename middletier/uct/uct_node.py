@@ -1,3 +1,34 @@
+"""
+    UctNode class:
+    Represents a node in the Monte Carlo Tree Search (MCTS) tree used by the UCT algorithm.
+    Each node corresponds to a game state resulting from an action taken by a player.
+
+    Key responsibilities include:
+    - Tracking visits and cumulative wins for computing UCT values.
+    - Managing children nodes and the list of unexplored actions.
+    - Selecting child nodes based on the UCT formula to balance exploration and exploitation.
+    - Adding new child nodes during the expansion phase.
+    - Updating node statistics during backpropagation.
+    - Providing the most visited child, typically used to choose the best move after simulations.
+
+    Attributes:
+    - action: The move that led to this node.
+    - parent: Reference to the parent UctNode.
+    - children: List of child UctNodes.
+    - wins: Accumulated score for the active player at this node.
+    - visits: Number of times this node has been visited.
+    - active_player: The player who is to move at this node.
+    - unexamined: Actions from this state yet to be tried.
+
+    Dependencies:
+    - math: For logarithm and square root calculations.
+
+    Usage notes:
+    - select_child implements the UCT formula.
+    - add_child removes the chosen action from unexamined and appends the new child.
+    - update increments visit count and updates wins based on simulation results.
+"""
+
 import math
 import random
 

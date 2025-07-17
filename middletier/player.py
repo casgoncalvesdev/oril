@@ -1,5 +1,20 @@
 """
+    Player class:
+    This class encapsulates the logic and state for a single player in the game.
+    It manages a player's houses and store, determines valid moves, executes turns,
+    and calculates scores based on the game's rules.
 
+    Key responsibilities include:
+    - Managing access to the player's pits (houses and store).
+    - Performing a player's move, including sowing and potential captures.
+    - Checking game completion and computing the final score.
+    - Providing legal move options (actions) for AI or manual play.
+
+    Dependencies:
+    - PlayerNumber: Enum identifying the player (e.g., Player One or Two).
+    - House: Represents one of the player's sowable pits.
+    - Store: Represents the player's scoring pit.
+    - Pit: The base class for both House and Store.
 """
 class Player:
     def __init__(self, num: 'PlayerNumber', houses: list['House'], store: 'Store'):

@@ -1,4 +1,20 @@
-from middletier.PlayerNumber import PlayerNumber
+"""
+    Result class:
+    This class encapsulates the outcome of a single move in the game, including the game status,
+    which player's turn is next, and the current state of the board. It also provides utilities
+    to retrieve scores and compare result states.
+
+    Key responsibilities include:
+    - Holding the result state after a move: game status, next player, and board.
+    - Providing access to player scores via `get_result()`.
+    - Supporting comparison and hashing for result objects (useful for testing or AI logic).
+
+    Dependencies:
+    - PlayerNumber: Enum identifying players.
+    - Status: Enum representing game state (e.g., ACTIVE, WIN, DRAW).
+    - Board: Represents the current layout and state of the game.
+"""
+from middletier.player_number import PlayerNumber
 
 
 class Result:

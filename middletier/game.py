@@ -1,11 +1,24 @@
+"""
+    Game class:
+    This class manages the flow and state of a two-player board game.
+    It coordinates player turns, handles move execution, checks for game completion,
+    and determines the winner. The class uses several supporting modules:
+    - Board: Represents the game board and its state.
+    - Player: Encapsulates player actions and scoring.
+    - PlayerNumber: Enum for identifying Player One or Two.
+    - Result: Wraps the result of a move, including game status and active player.
+    - Status: Enum representing the game's current status (active, won, draw).
+    - Uct: (Optional) Implements UCT logic from Monte Carlo Tree Search for AI moves.
+"""
+
 import random
 
-from middletier.Board import Board
-from middletier.Player import Player
-from middletier.PlayerNumber import PlayerNumber
-from middletier.Result import Result
-from middletier.Status import Status
-from middletier.utc.Uct import Uct
+from middletier.board import Board
+from middletier.player import Player
+from middletier.player_number import PlayerNumber
+from middletier.result import Result
+from middletier.status import Status
+from middletier.uct.uct import Uct
 
 
 class Game:

@@ -1,8 +1,29 @@
+"""
+    Uct class:
+    Implements the Upper Confidence bound applied to Trees (UCT) algorithm,
+    a key component of Monte Carlo Tree Search (MCTS) used to select optimal moves
+    in the game by balancing exploration and exploitation during simulations.
+
+    Key responsibilities include:
+    - Performing tree search with selection, expansion, simulation, and backpropagation phases.
+    - Managing search parameters such as maximum iterations, time, simulation depth, and lookahead.
+    - Returning the best action found along with performance metrics.
+
+    Dependencies:
+    - PlayerNumber: Enum to identify players.
+    - UctNode: Represents nodes in the search tree.
+    - deepcopy: Used to simulate moves on independent board copies.
+
+    Usage notes:
+    - The main method get_action_info runs iterative simulations until
+      constraints on time or iterations are met, then returns the best move.
+"""
+
 import time
 import random
 
-from middletier.PlayerNumber import PlayerNumber
-from middletier.utc.UctNode import UctNode
+from middletier.player_number import PlayerNumber
+from middletier.uct.uct_node import UctNode
 from copy import deepcopy
 
 class Uct:
