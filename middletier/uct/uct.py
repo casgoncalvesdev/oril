@@ -80,7 +80,7 @@ class Uct:
                         action = random.choice(node.unexamined)
                         player.turn(action + 1)
                         node = node.add_child(
-                            player, variant_board, node.unexamined.index(action))
+                            player, node.unexamined.index(action))
                         players = variant_board.get_players()
                         player = players.get_player1() if player.get_num(
                         ) == PlayerNumber.ONE else players.get_player2()
