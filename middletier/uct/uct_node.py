@@ -30,27 +30,51 @@
 """
 
 import math
-import random
 
 class UctNode:
-    def __init__(self, player, parent, board, action):
+    def __init__(self, player, parent, action):
+        """
+            Initializes a UctNode with the current game state information.
+
+            Args:
+                player (Player): The player to move at this node.
+                parent (UctNode or None): The parent node in the tree.
+                action (int or None): The action that led to this node.
+        """
         self.verbose = False
         self.action = action                   # Action that led to this node
         self.parent = parent                   # Parent UctNode
         self.children = []                     # Child UctNodes
-        self.wins = 0                          # Total score (for active player)
+        # Total score (for active player)
+        self.wins = 0
         self.visits = 0                        # Number of times node visited
         self.active_player = player.get_num()  # Actions not yet tried
-        self.unexamined = player.get_actions() # Who is to move
+        self.unexamined = player.get_actions()  # Who is to move
 
-    def add_child(self, player, board, index):
+    def add_child(self, player, index):
+        """
+            Expands the node by creating a new child for an unexamined action.
+
+            Args:
+                player (Player): The player to move at the new child node.
+                index (int): Index of the unexamined action to add as a child.
+
+            Returns:
+                UctNode: The newly created child node.
+        """
         action = self.unexamined[index]
-        child = UctNode(player=player, parent=self, board=board, action=action)
+        child = UctNode(player=player, parent=self, action=action)
         del self.unexamined[index]
         self.children.append(child)
         return child
 
     def select_child(self):
+        """
+            Selects the child node to explore based on the UCT formula.
+
+            Returns:
+                UctNode: The child node with the highest UCT value, or an unvisited child.
+        """
         best_value = float('-inf')
         selected = None
 
@@ -67,10 +91,22 @@ class UctNode:
         return selected
 
     def update(self, result):
+        """
+            Updates the node's statistics after a simulation.
+
+            Args:
+                result (dict): Mapping from player number to their score from the simulation.
+        """
         self.visits += 1
         self.wins += result[self.active_player]
 
     def most_visited_child(self):
+        """
+           Returns the child node visited most frequently.
+
+           Returns:
+               UctNode: The child node with the highest visit count.
+        """
         if self.verbose:
             for child in self.children:
                 print(f"{child.action} ({child.wins:.2f}/{child.visits})")
