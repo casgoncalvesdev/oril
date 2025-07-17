@@ -75,9 +75,14 @@ class Pit:
         """
         self.is_sowable = sowable
 
-    def sow(self) -> None:
-        """Increment the seed count by one, simulating sowing a seed."""
-        self.seeds += 1
+    def sow(self, seeds: int = 1) -> None:
+        """
+            Add a specified number of seeds to the pit.
+
+            Args:
+            seeds (int, optional): Number of seeds to add. Defaults to 1.
+        """
+        self.seeds += seeds
 
     def is_empty(self) -> bool:
         """Return True if the pit contains no seeds."""
