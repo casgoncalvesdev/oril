@@ -27,6 +27,15 @@ from middletier.game import Game
 
 
 def main():
+    """
+        Entry point for running the game simulation.
+
+        This function sets up the initial board state and plays two turns.
+        Various predefined scenarios are provided (commented) to test edge
+        cases like seed captures and end-game conditions.
+
+        To test a specific scenario, uncomment the corresponding Board setup.
+    """
     # # Test scenario: capture 2 seeds from opposite pit
     # board = Board.from_seeds(
     #     [0, 0, 0, 0, 2, 0],
