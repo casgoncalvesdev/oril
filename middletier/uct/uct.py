@@ -39,33 +39,6 @@ class Uct:
             max_time,
             max_depth_simulation,
             max_lookahead):
-        """
-            Runs a UCT (Upper Confidence Trees) search to select the best action from the current game state.
-
-            The method performs a Monte Carlo Tree Search (MCTS) using the UCT algorithm. It repeatedly
-            selects, expands, simulates, and backpropagates game states to evaluate available actions
-            from the root node (current board state). The process stops when the time or iteration
-            limit is reached, and the most visited child node's action is returned.
-
-            Args:
-                player (Player): The player whose turn it is to act.
-                board (Board): The current board state.
-                max_iterations (int): The maximum number of iterations to perform.
-                max_time (int): Maximum time (in milliseconds) allowed for the search.
-                max_depth_simulation (int): Maximum depth to simulate during rollouts.
-                max_lookahead (int): Number of game steps to look ahead in tree traversal.
-
-            Returns:
-                dict: A dictionary with the selected action and additional info:
-                    {
-                        "action": int or None,  # the selected action index (0-based), or None if no action
-                        "info": str             # description of the decision context or performance stats
-                    }
-
-            Notes:
-                - If only one unexamined action exists, it's selected without running MCTS.
-                - If no actions are available, the result will contain `None` for the action.
-        """
         result = None
 
         # Create the root node for UCT with the current game state
