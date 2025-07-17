@@ -18,22 +18,36 @@
 """
 class Players:
     def __init__(self, player1: 'Player', player2: 'Player'):
+        """Initialize Players with two Player instances."""
         self.player1 = player1
         self.player2 = player2
 
     def get_player1(self) -> 'Player':
+        """Return the first player."""
         return self.player1
 
     def get_player2(self) -> 'Player':
+        """Return the second player."""
         return self.player2
 
     def __eq__(self, other) -> bool:
+        """
+        Check equality with another Players instance.
+
+        Args:
+            other: The object to compare against.
+
+        Returns:
+            True if both players are equal, False otherwise.
+        """
         if not isinstance(other, Players):
             return False
         return self.player1 == other.player1 and self.player2 == other.player2
 
     def __hash__(self) -> int:
+        """Return a hash based on the two players."""
         return hash((self.player1, self.player2))
 
     def __str__(self) -> str:
+        """Return a string representation of the Players instance."""
         return f"Players(player1={self.player1}, player2={self.player2})"
