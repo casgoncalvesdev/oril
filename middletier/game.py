@@ -11,8 +11,6 @@
     - Uct: (Optional) Implements UCT logic from Monte Carlo Tree Search for AI moves.
 """
 
-import random
-
 from middletier.board import Board
 from middletier.player import Player
 from middletier.player_number import PlayerNumber
@@ -48,7 +46,7 @@ class Game:
                     raise ValueError("Invalid input. Please enter a number.")
             else:
                 # # RandomRollout Simulation
-                #house = random.randint(1, 5)
+                # house = random.randint(1, 5)
 
                 ##  UCT (Upper Confidence bound applied to Trees) from Monte Carlo Tree Search (MCTS)
                 uct = Uct()
