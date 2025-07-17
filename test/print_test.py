@@ -15,6 +15,9 @@ from middletier.board import Board
 
 
 def main():
+    """
+        Initialize a new game board and print its current state.
+    """
     board = Board.create()
     view = Print.board(board)
     print(view)
