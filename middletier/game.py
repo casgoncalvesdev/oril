@@ -48,12 +48,12 @@ class Game:
                     raise ValueError("Invalid input. Please enter a number.")
             else:
                 # # RandomRollout Simulation
-                house = random.randint(1, 5)
+                #house = random.randint(1, 5)
 
                 ##  UCT (Upper Confidence bound applied to Trees) from Monte Carlo Tree Search (MCTS)
-                # uct = Uct()
-                # actionInfo = uct.get_action_info(self.player, self.board, 300000, 5000, 50, 70)
-                # house = actionInfo.get('action') + 1
+                uct = Uct()
+                actionInfo = uct.get_action_info(self.player, self.board, 300000, 5000, 50, 70)
+                house = actionInfo.get('action') + 1
 
         landed = self.player.turn(house)
 
