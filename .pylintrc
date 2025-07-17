@@ -1,0 +1,14 @@
+[MASTER]
+init-hook=import sys, os; from dotenv import load_dotenv; load_dotenv('.env'); load_dotenv('.env.local', override=True); python_path = os.getenv('PROJECTDIRPATH'); sys.path.append(python_path) if python_path else None
+
+[FORMAT]
+max-line-length=110
+
+[DESIGN]
+max-args=7
+max-locals=25
+max-attributes=8
+min-public-methods=1
+
+[MESSAGES CONTROL]
+disable=too-many-positional-arguments,missing-class-docstring
