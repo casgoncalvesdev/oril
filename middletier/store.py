@@ -20,11 +20,12 @@ class Store(Pit):
         """Initialize a Store with an owner and initial seed count. Store pits are not sowable."""
         super().__init__(owner, seeds, is_sowable=False)
 
-    def sow(self, seeds: int) -> None:
-        """Add a specified number of seeds to the store.
+    def sow(self, seeds: int = 1) -> None:
+        """
+            Add a specified number of seeds to the store.
 
-        Args:
-            seeds (int): Number of seeds to add.
+            Args:
+                seeds (int): Number of seeds to add.
         """
         self.seeds += seeds
 
