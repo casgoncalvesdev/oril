@@ -40,6 +40,30 @@ class Uct:
         max_depth_simulation,
         max_lookahead
     ):
+        """
+           Perform the Upper Confidence Bound applied to Trees (UCT) algorithm to select the best action.
+
+           This method builds a search tree from the current game state and performs simulations
+           to evaluate potential moves. It selects the most promising action based on the number
+           of visits and simulated outcomes.
+
+           Args:
+               player: The current player object whose turn it is.
+               board: The current game board state.
+               max_iterations (int): Maximum number of simulation iterations to perform.
+               max_time (int): Maximum time allowed for the simulations in milliseconds.
+               max_depth_simulation (int): Maximum depth for each simulation rollout.
+               max_lookahead (int): Maximum number of moves to look ahead during tree traversal.
+
+           Returns:
+               dict: A dictionary containing:
+                   - 'action' (int or None): The chosen action index, or None if no valid actions.
+                   - 'info' (str): Informational message about the simulation process or result.
+
+           Notes:
+               - If only one action is available, it returns that immediately.
+               - If no actions are available, it indicates the game is likely over.
+       """
         def get_current_player(variant_board, current_player):
             players = variant_board.get_players()
             if current_player.get_num() == PlayerNumber.ONE:
