@@ -16,6 +16,8 @@
     - Store: Represents the player's scoring pit.
     - Pit: The base class for both House and Store.
 """
+
+
 class Player:
     def __init__(self, num: 'PlayerNumber', houses: list['House'], store: 'Store'):
         """
