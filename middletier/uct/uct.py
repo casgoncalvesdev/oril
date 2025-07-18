@@ -19,10 +19,10 @@
       constraints on time or iterations are met, then returns the best move.
 """
 
-import time
 import random
-
+import time
 from copy import deepcopy
+
 from middletier.player_number import PlayerNumber
 from middletier.uct.uct_node import UctNode
 
@@ -64,6 +64,7 @@ class Uct:
                - If only one action is available, it returns that immediately.
                - If no actions are available, it indicates the game is likely over.
        """
+
         def get_current_player(variant_board, current_player):
             players = variant_board.get_players()
             if current_player.get_num() == PlayerNumber.ONE:
@@ -88,62 +89,123 @@ class Uct:
                     current_player = get_current_player(variant_board, player)
                     lookahead = max_lookahead
 
-                    # Selection: traverse down tree to leaf node
-                    while not node.unexamined and node.children and lookahead > 0:
-                        node = node.select_child()
-                        current_player.turn(node.action + 1)
-                        current_player = get_current_player(variant_board, current_player)
-                        lookahead -= 1
+                    current_player, lookahead, node = self.select(current_player,
+                                                                  get_current_player,
+                                                                  lookahead, node,
+                                                                  variant_board)
 
-                    # Expansion: expand new child if unexamined actions exist
-                    if node.unexamined:
-                        action = random.choice(node.unexamined)
-                        current_player.turn(action + 1)
-                        child_index = node.unexamined.index(action)
-                        node = node.add_child(current_player, child_index)
-                        current_player = get_current_player(variant_board, current_player)
+                    current_player = self.expand(current_player, get_current_player, node, variant_board)
 
-                    # Simulation: run rollout from this node
-                    current_player = get_current_player(variant_board, current_player)
-                    actions = current_player.get_actions()
-                    depth = max_depth_simulation
+                    nodes_visited = self.simulation(current_player,
+                                                    get_current_player,
+                                                    lookahead,
+                                                    max_depth_simulation,
+                                                    nodes_visited, variant_board)
 
-                    while actions and depth > 0 and lookahead > 0:
-                        move = random.choice(actions)
-                        current_player.turn(move + 1, sim=True)
-                        nodes_visited += 1
-                        current_player = get_current_player(variant_board, current_player)
-                        actions = current_player.get_actions()
-                        depth -= 1
-                        lookahead -= 1
-
-                    # Backpropagation: update node statistics based on simulation result
-                    result = {
-                        PlayerNumber.ONE: variant_board.get_players().get_player1().score(),
-                        PlayerNumber.TWO: variant_board.get_players().get_player2().score()
-                    }
+                    result = self.backpropagation(variant_board)
 
                 iterations += block_size
 
             duration = time.time() - start_time
             speed = int(nodes_visited / duration) if duration > 0 else 0
             best_child = root.most_visited_child()
-            result = {
-                "action": best_child.action,
-                "info": f"{speed} nodes/sec examined."
-            }
+            result = self.get_result(best_child.action, f"{speed} nodes/sec examined.")
 
         elif len(root.unexamined) == 1:
             # Only one action possible
-            result = {
-                "action": root.unexamined[0],
-                "info": "Just 1 action available."
-            }
+            result = self.get_result(root.unexamined[0], "Just 1 action available.")
         else:
             # No moves available (probably game over)
-            result = {
-                "action": None,
-                "info": "No action available."
-            }
+            result = self.get_result(None, "No action available.")
 
         return result
+
+    def get_result(self, action, info):
+        """
+            Returns the result of the UCT (Upper Confidence Bound for Trees) simulation.
+
+            This method generates a dictionary containing the selected action along with an
+            informational message. The action is typically the most promising move identified
+            by the UCT algorithm based on the simulation process.
+
+            Args:
+                action (int or None): The action to be taken, an index or None, if no valid action exists.
+                If no valid action exists (e.g., the game is over), this will be None.
+                info (str): A string providing additional information about the simulation process or result.
+                            This could include details like the number of nodes examined per second or if
+                            only one action is available.
+
+            Returns:
+                dict: A dictionary containing the following key-value pairs:
+                    - 'action' (int or None): The selected action, or None if no action is possible.
+                    - 'info' (str): Informational message about the simulation or result. This message can
+                      explain the reason for the selected action, like the speed of simulations or the fact
+                      that only one move is available.
+
+            Example:
+                result = self.get_result(action=3, info="50 nodes/sec examined.")
+                print(result)  # Output: {'action': 3, 'info': '50 nodes/sec examined.'}
+
+            Notes:
+                - This method is primarily used to return the outcome of the UCT algorithm's decision process.
+                - The 'action' can be None if there are no valid actions left (e.g., the game is over).
+        """
+        return  {
+            "action": action,
+            "info": info
+        }
+
+    def backpropagation(self, variant_board):
+        """
+            backpropagation: update node statistics based on simulation result
+        """
+        return {
+            PlayerNumber.ONE: variant_board.get_players().get_player1().score(),
+            PlayerNumber.TWO: variant_board.get_players().get_player2().score()
+        }
+
+    def simulation(self,
+                   current_player,
+                   get_current_player,
+                   lookahead,
+                   max_depth_simulation,
+                   nodes_visited,
+                   variant_board):
+        """
+             Simulation: run rollout from this node
+        """
+        current_player = get_current_player(variant_board, current_player)
+        actions = current_player.get_actions()
+        depth = max_depth_simulation
+        while actions and depth > 0 and lookahead > 0:
+            move = random.choice(actions)
+            current_player.turn(move + 1, sim=True)
+            nodes_visited += 1
+            current_player = get_current_player(variant_board, current_player)
+            actions = current_player.get_actions()
+            depth -= 1
+            lookahead -= 1
+        return nodes_visited
+
+    def expand(self, current_player, get_current_player, node, variant_board):
+        """
+            Expansion: expand new child if unexamined actions exist
+        """
+        if node.unexamined:
+            action = random.choice(node.unexamined)
+            current_player.turn(action + 1)
+            child_index = node.unexamined.index(action)
+            node = node.add_child(current_player, child_index)
+            current_player = get_current_player(variant_board, current_player)
+        return current_player
+
+    def select(self, current_player, get_current_player, lookahead, node, variant_board):
+        """
+            Selection: traverse down tree to leaf node
+        """
+        while not node.unexamined and node.children and lookahead > 0:
+            node = node.select_child()
+            current_player.turn(node.action + 1)
+            current_player = get_current_player(variant_board, current_player)
+            lookahead -= 1
+        return current_player, lookahead, node
